@@ -5,7 +5,7 @@ in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc545
 clarification of an **existing** media format (16-bit linear, 8kHz sampled audio) is also proposed
 for continuity.
 
-# 1 Background/Informative 
+# 1. Background/Informative 
 
 ## 1.1 Goal
 
