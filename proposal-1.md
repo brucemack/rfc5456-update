@@ -71,7 +71,7 @@ are generally synonymous, refer to the method of mapping observed analog voltage
 corresponding digital codewords. A PCM encoding system is called "linear" because the analog 
 voltage levels are quantized to corresponding digital codewords by a linear function. For example, 
 voltage that range from -0.5 volts to +0.5 volts would be mapped onto digital codewords 
-that range from -32,768 to 32,767 using a linear factor.
+that range from -32,768 to 32,767 using a linear factor of ~65,534.
 
 The linear mapping referenced in this proposal is in contrast to several of the other media formats
 supported. G.711 mu-law (codepoint  0x00000004), for example, uses a logarithmic mapping that gives 
@@ -80,7 +80,7 @@ mapping that assigns more/less resolution depending on the shape of the analog s
 quantized. 
 
 Notice that the preceding paragraph references two audio formats (G.711 and G.722) using designations
-assigned by a formal standardization process. It is probably not a coincidences that the audio 
+assigned by a formal standardization process. It is probably not a coincidence that the audio 
 formats that are the subject of this proposal are the only ones that do not reference external standards.
 The description "16-bit linear little-endian" leaves some key parameters to the implementer's 
 interpretation. To name a few:
