@@ -26,7 +26,7 @@ The purpose of this discussion is two-fold:
 audio in this format.
 * Add a new media format "16-bit linear (PCM) little-endian 16 kHz sampling rate" (codepoint 0x00008000).
 
-This discussion has been made a bit more complicated by a few factors:
+This discussion has been made more complicated by a few factors:
 1. The existing RFC document does not define a sampling rate for the "16-bit linear little-endian"
 format. In fact, there is little explicit mention of sampling rates throughout the list of media 
 formats in section 8.7, although this is usually not an issue since most of the formats are 
@@ -38,49 +38,50 @@ assumption that audio encoded in the "16-bit linear little-endian" format is sam
 media format, the existing implementations of the IAX2 protocol that the author is aware of
 have defined a de-facto standard format for this encoding using an **apparently unused** codepoint
 of 0x00008000. Although the use of an unregistered format is not desirable, at least the
-developers didn't create a conflict.
+developers didn't create a conflict with any documented format.
 3. To make things even more complicated, it appears that the existing implementations of the
 8 kHz variant of the 16-bit linear format (the documented one) contain a formatting error. Audio
 samples are encoded using big-endian (network) byte order. **We are not addressing this issue in
 this proposal.** The RFC document was clear on the byte-ordering convention and the erroneous 
 implementations will be handled separately. 
-4. The IAX2 RFC contains an oblique mention to an Information Element (0x29) in section 8.6.32
-that suggests a method of eliminating the ambiguity of the existing media format. However, the
+4. The IAX2 RFC contains an oblique mention to an Information Element (0x29) called SAMPLINGRATE
+in section 8.6.32 that suggests a method of eliminating the ambiguity of the existing media
+format. However, the
 RFC makes no mention of where/how this Information Element should be used. It is likely that 
-this issue never came up because the sampling rate is **implicit** in all of the  
-audio-oriented media formats that are governed by formal standards (i.e. all of the formats
+this issue never came up because the sampling rate is **implicit** in all of the audio-oriented
+media formats that are governed by formal standards (i.e. all of the formats
 that start with "G" or something similar).
 
 ## 1.2 Background on Audio Encoding
 
-One of the key parameters of a digital audio encoding is the sampling rate. This rate
+One of the key parameters of a digital audio encoding format is the sampling rate. This rate
 defines the frequency at which an analog audio waveform is observed and converted into 
 digital form. This rate is also used on the other side of the network to convert digital
-samples back to an analog waveform. In order for a digital audio system to be useful there 
-must be a clear agreement on the sampling rate used by both sides of the system. All of the 
+samples back to an analog form. In order for a digital audio system to be useful there 
+must be a clear agreement on the sampling rate assumed by both sides of the system. All of the 
 existing audio media formats supported by the IAX2 protocol make some assumption about the 
 audio sampling rate.
 
 By way of background, digital audio systems with higher sampling rates generally provide
-higher audio fidelity. This is the motivation for adding a 16 kHz audio format to the IAX2
+higher audio fidelity. This is the motivation for proposing a 16 kHz audio format in the IAX2
 protocol.
 
 The terms "linear" and "pulse-coded modulation" (PCM) are used below. These terms, which
-are generally synonymous, refer to the method of mapping observed analog voltages levels to 
+are generally synonymous, refer to the method of mapping observed analog voltage levels to 
 corresponding digital codewords. A PCM encoding system is called "linear" because the analog 
 voltage levels are quantized to corresponding digital codewords by a linear function. For example, 
-voltage that range from -0.5 volts to 0.5 volts would be mapped onto digital codewords 
+voltage that range from -0.5 volts to +0.5 volts would be mapped onto digital codewords 
 that range from -32,768 to 32,767 using a linear factor.
 
-The linear mapping referenced in this proposal is in contrast to several of the media formats
-supported. G.711 mu-law (codepoint  0x00000004), for example, use a logarithmic mapping that gives 
-more resolution for lower signal values. The G.722 format (codepoint 0x00001000) uses an adaptive
+The linear mapping referenced in this proposal is in contrast to several of the other media formats
+supported. G.711 mu-law (codepoint  0x00000004), for example, uses a logarithmic mapping that gives 
+more resolution to lower signal values. The G.722 format (codepoint 0x00001000) uses an adaptive
 mapping that assigns more/less resolution depending on the shape of the analog signal being
 quantized. 
 
 Notice that the preceding paragraph references two audio formats (G.711 and G.722) using designations
 assigned by a formal standardization process. It is probably not a coincidences that the audio 
-formats that are the subject of this proposal are the only ones that do no reference external standards.
+formats that are the subject of this proposal are the only ones that do not reference external standards.
 The description "16-bit linear little-endian" leaves some key parameters to the implementer's 
 interpretation. To name a few:
 * The audio sampling rate to be used.
@@ -109,9 +110,9 @@ The row should be added in numerical order after AMR.
 * The "DESCRIPTION" column should contain "16-bit linear (PCM) little-endian 16 kHz."
 * The "ENCODING NOTES" column should contain "2 bytes per sample, 320 samples per chunk."
 
-## 2.3 Final Version (Proposed)
+## 2.3 Final Table for Section 8.7 (Proposed)
 
-It is proposed that the table in section 8.7 look like this:
+The proposed table in section 8.7 should look like this:
 
         +------------+-----------------------+------------------------------------+
         | SUBCLASS   | DESCRIPTION           | ENCODING NOTES                     |
