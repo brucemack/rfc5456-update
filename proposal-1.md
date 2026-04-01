@@ -4,7 +4,7 @@ The purpose of this proposal is to formalize the use of a new media format for 1
 16 kHz sampled audio format which is not defined in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some additional background on the **existing** 16-bit linear, 8kHz sampled 
 audio format is provided for continuity.
 
-## 1.1 Background/Informative 
+## 1.1 General Background/Informative 
 
 The Inter-Asterisk eXchange protocol (IAX2) is used to implement digital telephony
 over Internet Protocol (IP) networks. One important flexibility of this protocol
@@ -44,6 +44,23 @@ samples are encoded using big-endian (network) byte order. **We are not addressi
 this proposal.** The RFC document was clear on the byte-ordering convention and the erroneous 
 implementations will be handled separately. 
 
+## 1.2 Background on Audio Encoding
+
+One of the key parameters of a digital audio encoding is the sampling rate. This rate
+defines the frequency at which an analog audio waveform is observed and converted into 
+digital form. This rate is also used on the other side of the network to convert digital
+samples back to an analog waveform. In order for a digital audio system to be useful there 
+must be a clear agreement on the sampling rate used by both sides of the system. All of the 
+existing audio media formats supported by the IAX2 protocol make some assumption about the 
+audio sampling rate.
+
+The terms "linear" and "pulse-coded modulation" (PCM) are used below. These terms, which
+are generally synonymous, refer to the method of mapping observed analog voltages levels to 
+corresponding digital codewords. A PCM encoding system is called "linear" because the analog 
+voltage levels are scaled to corresponding digital codewords by a linear function. For example, 
+voltage that range from -0.5 volts to 0.5 volts would be mapped onto digital codewords 
+that range from -32,768 to 32,767 using a linear factor.
+
 # 2. Proposed Additions
 
 ## 2.1 Existing Media Format
@@ -53,10 +70,16 @@ The "Media Format Values" table in section 8.7 of the RFC should be changed in t
 * The title at the top of column 3 of the table should be changed from "LENGTH CALCULATIONS" to
 "ENCODING NOTES." This will better represent the contents of this column which varies across formats
 and doesn't always provide the ability to compute the encoded length.
-* The "DESCRIPTION" column for SUBCLASS 0x00000040 should be changed to "16-bit linear little-endian 8 kHz" to
+* The "DESCRIPTION" column for SUBCLASS 0x00000040 should be changed to "16-bit linear PCM little-endian 8 kHz" to
 eliminate ambiguity.
 * The "ENCODING NOTES" column for SUBCLASS 0x00000040 should contain "2 bytes per sample, 160 samples per chunk."
-* A new row should be added in numerical order after AMR:
-  * The "SUBCLASS" column should contain the value 0x00008000.
-  * The "DESCRIPTION" column should contain "16-bit linear little-endian 16 kHz."
-  * The "ENCODING NOTES" column should contain "2 bytes per sample, 320 samples per chunk."
+
+## 2.2 New/Proposed Media Format
+
+The "Media Format Values" table in section 8.7 of the RFC should be augmented to include a new row.
+The row should be added in numerical order after AMR.
+
+* The "SUBCLASS" column should contain the value 0x00008000.
+* The "DESCRIPTION" column should contain "16-bit linear PCM little-endian 16 kHz."
+* The "ENCODING NOTES" column should contain "2 bytes per sample, 320 samples per chunk."
+
