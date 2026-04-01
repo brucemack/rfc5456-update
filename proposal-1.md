@@ -57,9 +57,20 @@ audio sampling rate.
 The terms "linear" and "pulse-coded modulation" (PCM) are used below. These terms, which
 are generally synonymous, refer to the method of mapping observed analog voltages levels to 
 corresponding digital codewords. A PCM encoding system is called "linear" because the analog 
-voltage levels are scaled to corresponding digital codewords by a linear function. For example, 
+voltage levels are quantized to corresponding digital codewords by a linear function. For example, 
 voltage that range from -0.5 volts to 0.5 volts would be mapped onto digital codewords 
 that range from -32,768 to 32,767 using a linear factor.
+
+The linear mapping referenced in this proposal is in contrast to several of the media formats
+supported. G.711 mu-law (codepoint  0x00000004), for example, use a logarithmic mapping that gives 
+more resolution for lower signal values. The G.722 format (codepoint 0x00001000) uses an adaptive
+mapping that assigns more/less resolution depending on the shape of the analog signal being
+quantized. 
+
+Notice that the preceding paragraph references two audio formats (G.711 and G.722) using designations
+assigned by a formal standardization process. It is probably not a coincidences that the audio 
+formats that are the subject of this proposal are the only ones that do no reference external standards.
+The description "16-bit linear little-endian" leaves much to the implementer's interpretation.
 
 # 2. Proposed Additions
 
