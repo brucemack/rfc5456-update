@@ -1,11 +1,13 @@
-# 1. Proposal to Augment RFC5456 (IAX2) with a new Media Format
+**Proposal to Augment RFC5456 (IAX2) with a new Media Format**
 
 The purpose of this proposal is to formalize the use of a new media format which is not defined 
 in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some
 clarification of an **existing** media format (16-bit linear, 8kHz sampled audio) is also proposed
 for continuity.
 
-## 1.1 General Background/Informative 
+# 1 Background/Informative 
+
+## 1.1 Goal
 
 The Inter-Asterisk eXchange protocol (IAX2) is used to implement digital telephony
 over Internet Protocol (IP) networks. One important flexibility of this protocol
@@ -52,7 +54,7 @@ this issue never came up because the sampling rate is **implicit** in all of the
 media formats that are governed by formal standards (i.e. all of the formats
 that start with "G" or something similar).
 
-## 1.2 Background on Audio Encoding
+## 1.2 Background on Audio Sampling Rate
 
 One of the key parameters of a digital audio encoding format is the sampling rate. This rate
 defines the frequency at which an analog audio waveform is observed and converted into 
@@ -65,6 +67,8 @@ audio sampling rate.
 By way of background, digital audio systems with higher sampling rates generally provide
 higher audio fidelity. This is the motivation for proposing a 16 kHz audio format in the IAX2
 protocol.
+
+## 1.3 Background on Audio Quantizing Format
 
 The terms "linear" and "pulse-coded modulation" (PCM) are used below. These terms, which
 are generally synonymous, refer to the method of mapping observed analog voltage levels to 
