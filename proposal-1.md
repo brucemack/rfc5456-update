@@ -111,49 +111,49 @@ The row should be added in numerical order after AMR.
 
 ## 2.3 Final Version (Proposed)
 
-   +------------+-----------------+------------------------------------+
-   | SUBCLASS   | DESCRIPTION     | LENGTH CALCULATION                 |
-   +------------+-----------------+------------------------------------+
-   | 0x00000001 | G.723.1         | 4-, 20-, and 24-byte frames of 240 |
-   |            |                 | samples                            |
-   |            |                 |                                    |
-   | 0x00000002 | GSM Full Rate   | 33-byte chunks of 160 samples or   |
-   |            |                 | 65-byte chunks of 320 samples      |
-   |            |                 |                                    |
-   | 0x00000004 | G.711 mu-law    | 1 byte per sample                  |
-   |            |                 |                                    |
-   | 0x00000008 | G.711 a-law     | 1 byte per sample                  |
-   |            |                 |                                    |
-   | 0x00000010 | G.726           |                                    |
-   |            |                 |                                    |
-   | 0x00000020 | IMA ADPCM       | 1 byte per 2 samples               |
-   |            |                 |                                    |
-   | 0x00000040 | 16-bit linear   | 2 bytes per sample                 |
-   |            | little-endian   |                                    |
-   |            |                 |                                    |
-   | 0x00000080 | LPC10           | Variable size frame of 172 samples |
-   |            |                 |                                    |
-   | 0x00000100 | G.729           | 20-byte chunks of 172 samples      |
-   |            |                 |                                    |
-   | 0x00000200 | Speex           | Variable                           |
-   |            |                 |                                    |
-   | 0x00000400 | ILBC            | 50 bytes per 240 samples           |
-   |            |                 |                                    |
-   | 0x00000800 | G.726 AAL2      |                                    |
-   |            |                 |                                    |
-   | 0x00001000 | G.722           | 16 kHz ADPCM                       |
-   |            |                 |                                    |
-   | 0x00002000 | AMR             | Variable                           |
-   |            |                 |                                    |
-   | 0x00010000 | JPEG            |                                    |
-   |            |                 |                                    |
-   | 0x00020000 | PNG             |                                    |
-   |            |                 |                                    |
-   | 0x00040000 | H.261           |                                    |
-   |            |                 |                                    |
-   | 0x00080000 | H.263           |                                    |
-   |            |                 |                                    |
-   | 0x00100000 | H.263p          |                                    |
-   |            |                 |                                    |
-   | 0x00200000 | H.264           |                                    |
-   +------------+-----------------+------------------------------------+
+        +------------+-----------------+------------------------------------+
+        | SUBCLASS   | DESCRIPTION     | LENGTH CALCULATION                 |
+        +------------+-----------------+------------------------------------+
+        | 0x00000001 | G.723.1         | 4-, 20-, and 24-byte frames of 240 |
+        |            |                 | samples                            |
+        |            |                 |                                    |
+        | 0x00000002 | GSM Full Rate   | 33-byte chunks of 160 samples or   |
+        |            |                 | 65-byte chunks of 320 samples      |
+        |            |                 |                                    |
+        | 0x00000004 | G.711 mu-law    | 1 byte per sample                  |
+        |            |                 |                                    |
+        | 0x00000008 | G.711 a-law     | 1 byte per sample                  |
+        |            |                 |                                    |
+        | 0x00000010 | G.726           |                                    |
+        |            |                 |                                    |
+        | 0x00000020 | IMA ADPCM       | 1 byte per 2 samples               |
+        |            |                 |                                    |
+        | 0x00000040 | 16-bit linear   | 2 bytes per sample                 |
+        |            | little-endian   |                                    |
+        |            |                 |                                    |
+        | 0x00000080 | LPC10           | Variable size frame of 172 samples |
+        |            |                 |                                    |
+        | 0x00000100 | G.729           | 20-byte chunks of 172 samples      |
+        |            |                 |                                    |
+        | 0x00000200 | Speex           | Variable                           |
+        |            |                 |                                    |
+        | 0x00000400 | ILBC            | 50 bytes per 240 samples           |
+        |            |                 |                                    |
+        | 0x00000800 | G.726 AAL2      |                                    |
+        |            |                 |                                    |
+        | 0x00001000 | G.722           | 16 kHz ADPCM                       |
+        |            |                 |                                    |
+        | 0x00002000 | AMR             | Variable                           |
+        |            |                 |                                    |
+        | 0x00010000 | JPEG            |                                    |
+        |            |                 |                                    |
+        | 0x00020000 | PNG             |                                    |
+        |            |                 |                                    |
+        | 0x00040000 | H.261           |                                    |
+        |            |                 |                                    |
+        | 0x00080000 | H.263           |                                    |
+        |            |                 |                                    |
+        | 0x00100000 | H.263p          |                                    |
+        |            |                 |                                    |
+        | 0x00200000 | H.264           |                                    |
+        +------------+-----------------+------------------------------------+
