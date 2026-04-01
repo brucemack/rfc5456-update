@@ -70,7 +70,7 @@ The "Media Format Values" table in section 8.7 of the RFC should be changed in t
 * The title at the top of column 3 of the table should be changed from "LENGTH CALCULATIONS" to
 "ENCODING NOTES." This will better represent the contents of this column which varies across formats
 and doesn't always provide the ability to compute the encoded length.
-* The "DESCRIPTION" column for SUBCLASS 0x00000040 should be changed to "16-bit linear PCM little-endian 8 kHz" to
+* The "DESCRIPTION" column for SUBCLASS 0x00000040 should be changed to "16-bit linear (PCM) little-endian 8 kHz" to
 eliminate ambiguity.
 * The "ENCODING NOTES" column for SUBCLASS 0x00000040 should contain "2 bytes per sample, 160 samples per chunk."
 
@@ -80,6 +80,6 @@ The "Media Format Values" table in section 8.7 of the RFC should be augmented to
 The row should be added in numerical order after AMR.
 
 * The "SUBCLASS" column should contain the value 0x00008000.
-* The "DESCRIPTION" column should contain "16-bit linear PCM little-endian 16 kHz."
+* The "DESCRIPTION" column should contain "16-bit linear (PCM) little-endian 16 kHz."
 * The "ENCODING NOTES" column should contain "2 bytes per sample, 320 samples per chunk."
 
