@@ -1,8 +1,8 @@
 # 1. Proposal to Augment RFC5456 (IAX2) with a new Media Format
 
-The purpose of this proposal is to formalize the use of a new media format for 16-bit linear,
-16 kHz sampled audio format which is not defined in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some additional background on the **existing** 16-bit linear, 8kHz sampled 
-audio format is provided for continuity.
+The purpose of this proposal is to formalize the use of a new media format which is not defined 
+in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some additional 
+background an the **existing** media format (16-bit linear, 8kHz sampled audio) is provided for continuity.
 
 ## 1.1 General Background/Informative 
 
@@ -10,20 +10,20 @@ The Inter-Asterisk eXchange protocol (IAX2) is used to implement digital telepho
 over Internet Protocol (IP) networks. One important flexibility of this protocol
 is the support for a variety of encoding formats used to transfer digital audio 
 across the network. For completeness, the protocol also provides support for some 
-non-audio formats like JPEG. The RFC uses the term "Media Format" is describe the method of
-representing audio content within the protocol. 
+non-audio formats like JPEG. The RFC uses the term "Media Format" is describe the 
+specific method of encoding audio content within the protocol. 
 
 Section 8.7 of the RFC provides the list of allowable media formats. This list is 
 repeated in the IANA Registry for the IAX protocol. Importantly, these two documents
 assign a 32-bit codepoint to each allowable media format. This codepoint is used within
-the IAX2 protocol messages allow two nodes to negotiate the audio format that will be used
+the IAX2 protocol messages to allow nodes to negotiate the audio format that will be used
 during the subsequent telephony session.
 
 The purpose of this discussion is two-fold:
 * Clarify that the meaning of the **existing** media format "16-bit linear little-endian"
 (codepoint 0x00000040) by defining the audio sampling rate that should be used for encoding
 audio in this format.
-* Add a new media format "16-bit linear, 16kHz sampling rate" (codepoint 0x00008000).
+* Add a new media format "16-bit linear (PCM) little-endian 16 kHz sampling rate" (codepoint 0x00008000).
 
 This discussion has been made a bit more complicated by a few factors:
 1. The existing RFC document does not define a sampling rate for the "16-bit linear little-endian"
@@ -70,7 +70,11 @@ quantized.
 Notice that the preceding paragraph references two audio formats (G.711 and G.722) using designations
 assigned by a formal standardization process. It is probably not a coincidences that the audio 
 formats that are the subject of this proposal are the only ones that do no reference external standards.
-The description "16-bit linear little-endian" leaves much to the implementer's interpretation.
+The description "16-bit linear little-endian" leaves some key parameters to the implementer's 
+interpretation. To name a few:
+* The audio sampling rate to be used.
+* The audio block size to be used.
+* The convention around signedness to be used (i.e. all positive, signed 2's compliment, etc.)
 
 # 2. Proposed Additions
 
