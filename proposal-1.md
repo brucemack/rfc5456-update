@@ -1,7 +1,7 @@
 # 1. Proposal to Augment RFC5456 (IAX2) with a new Media Format
 
 The purpose of this proposal is to formalize the use of a new media format which is not defined 
-in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some additional 
+in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some
 clarification of an **existing** media format (16-bit linear, 8kHz sampled audio) is also proposed
 for continuity.
 
@@ -21,7 +21,7 @@ the IAX2 protocol messages to allow nodes to negotiate the audio format that wil
 during the subsequent telephony session.
 
 The purpose of this discussion is two-fold:
-* Clarify that the meaning of the **existing** media format "16-bit linear little-endian"
+* Clarify the meaning of the **existing** media format "16-bit linear little-endian"
 (codepoint 0x00000040) by defining the audio sampling rate that should be used for encoding
 audio in this format.
 * Add a new media format "16-bit linear (PCM) little-endian 16 kHz sampling rate" (codepoint 0x00008000).
@@ -44,6 +44,12 @@ developers didn't create a conflict.
 samples are encoded using big-endian (network) byte order. **We are not addressing this issue in
 this proposal.** The RFC document was clear on the byte-ordering convention and the erroneous 
 implementations will be handled separately. 
+4. The IAX2 RFC contains an oblique mention to an Information Element (0x29) in section 8.6.32
+that suggests a method of eliminating the ambiguity of the existing media format. However, the
+RFC makes no mention of where/how this Information Element should be used. It is likely that 
+this issue never came up because the sampling rate is **implicit** in all of the  
+audio-oriented media formats that are governed by formal standards (i.e. all of the formats
+that start with "G" or something similar).
 
 ## 1.2 Background on Audio Encoding
 
