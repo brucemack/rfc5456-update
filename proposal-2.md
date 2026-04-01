@@ -15,12 +15,15 @@ an MD5 or a Rivest–Shamir–Adleman (RSA) challenge format. While these mechan
 provide good protection from 
 casual attackers, both have demonstrated cryptographic weaknesses. The goal of this 
 proposal is to expand the list of authentication methods to include the Edwards-Curve
-Digital Signature Algorithm which is a well-established digital signature algorithm 
+Digital Signature Algorithm which is a well-established security method
 described in [RFC 8032](https://datatracker.ietf.org/doc/html/rfc8032).
+
+The Edwards-Curve methodology offers superior security vs. RSA, it is significantly 
+faster for signing and verification, and uses much smaller key sizes.
 
 ## 1.2 Challenge/Response Flows
 
-There are two points in the IAX2 protocol flow where this issue is relevant:
+There are two points in the IAX2 protocol flow where this mechanism is relevant:
 
 1. The (optional) peer registration process is used to allow an IAX2 peer to advertise
 its presence on the network and to provide the information needed to be reachable by
@@ -58,29 +61,29 @@ password string." This digest is returned in the MD5 RESULT (0x10) information e
 silent on the exact format of this element, other than to say that it is "UTF-8 encoded." 
 
 Although not explicitly stated, the author has observed that the MD5 RESULT element contains the 
-UTF-8 encoded representation of the 32-character hexadecimal representation of the 16-byte (128 bit)
-standard MD5 digest.
+UTF-8 encoded representation of the 32-character hexadecimal representation of the 
+16-byte (128 bit) standard MD5 digest.
 
-What is also unstated is the method of joining the original challenge string and password that forms the 
-input of the MD5 digest. From experimentation is appears that the current implementations concatenate
+What is also unstated is the method of joining the original challenge string and secret password that
+form the input of the MD5 digest. From experimentation is appears that the current implementations concatenate
 the challenge and password directly without delimiter.
 
-## 1.3.2 The RSA Digest
+### 1.3.2 The RSA Digest
 
 The RFC provides a bit more specificity in this case. The UTF-8 encoded challenge string from the CHALLENGE
 information element (0x0f) provided by the connection recipient is SHA1-hashed (RFC3174) and the
 result is RSA-signed using a private key by the connection originator. The PKCS #1 v2.0 method is used to
-address padding requirements. Finally, the RSA digest is validated by the connector recipient using a public key.
+address padding requirements. Finally, the RSA digest is validated by the connection recipient using a public key.
 
 What is not explicitly stated in the RFC is that the result of the RSA signing computed by the connection
 originator is Base-64 encoded (RFC4648) before being sent back to the recipient for authentication.
 
-## 1.4 New Format: Edwards-Curve Digital Signature Algorithm
+## 1.4 New Digest Proposed: Edwards-Curve Digital Signature Algorithm
 
 The proposal is to add a third digest option. Specifically the ED25519 variant of the
-Edwards-Curve Digital Signature Algorithm described in RFC8032. Using this method the recipient of
-a connection would generate a challenge string, this challenge would be signed by the connection originator
-using a private key, and the resulting digest would be validated by the connection recipient using a
+Edwards-Curve Digital Signature Algorithm described in RFC8032. Using this method, the recipient of
+a connection must generate a challenge string, this challenge must be signed by the connection originator
+using a private key, and the resulting digest must be validated by the connection recipient using a
 public key. The important parameters of this digest:
 
 * The challenge in the ED25519 methodology is 128 bits. This challenge is generally joined to a 128 bit
@@ -93,7 +96,13 @@ UTF-8 encoded hex representations of the challenge and digests will both fit.
 Although several sections of the RFC need to be changed, the proposal is actually quite simple: **take
 anything that is currently possible using the RSA digest method and allow the ED25519 digest method as well.**
 
-## 1.5 Avoiding Confusion with IAX2 Encryption
+## 1.5 Public-Key Methods, Similarity Between ED25519 and RSA
+
+The proposed ED25519 method is more similar to the existing RSA method than it is to the existing MD5
+method. Both ED25519 and RSA utilize a public/private key pair. MD5, on the other hand, compares the 
+hash value of a shared secret password.
+
+## 1.6 Avoiding Confusion with IAX2 Encryption
 
 Section 7.4 of the IAX2 RFC discusses the related issues around call-level encryption. This feature
 uses one of the Information Elements described in this proposal (CHALLENGE) to enable encryption 
@@ -301,13 +310,13 @@ This section should be expanded to include the new method:
 
 Furthermore, an elaboration:
 
-        The challenge size for the ED25519 authentication method MUST be challenger-defined
+        The challenge size for the ED25519 authentication method MUST be a challenger-defined
         128-bit (16-byte value), represented as 32 character hexadecimal value, encoded in 
         UTF-8 format.
 
 ## New Section 8.6.xx - Addition of ED25519 RESULT Information Element
 
-The following text is proposed. This largely parallel the RSA RESULT
+The following text is proposed. This largely parallels the RSA RESULT
 element:
 
         The purpose of the ED25519 RESULT information element is to offer an ED25519
@@ -335,7 +344,7 @@ element:
         |                               |
         +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
     
-    ## Section 10 - Elaboration of Security Considerations
+## Section 10 - Elaboration of Security Considerations
 
     This section provides some general context around the security of IAX2 channels.
     Everything that is described regarding MD5 and RSA applies equally (if not more)
