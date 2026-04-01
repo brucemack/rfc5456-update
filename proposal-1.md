@@ -1,5 +1,62 @@
-> [!NOTE]
-> The purpose of proposal is to formalize the use of a media format for 16-bit linear,
-16kHz sampling audio format which is not defined in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some additional background on the **existing** 16-bit linear, 8kHz sampling 
+# 1. Proposal to Augment RFC5456 (IAX2) with a new Media Format
+
+The purpose of this proposal is to formalize the use of a new media format for 16-bit linear,
+16 kHz sampled audio format which is not defined in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some additional background on the **existing** 16-bit linear, 8kHz sampled 
 audio format is provided for continuity.
 
+## 1.1 Background/Informative 
+
+The Inter-Asterisk eXchange protocol (IAX2) is used to implement digital telephony
+over Internet Protocol (IP) networks. One important flexibility of this protocol
+is the support for a variety of encoding formats used to transfer digital audio 
+across the network. For completeness, the protocol also provides support for some 
+non-audio formats like JPEG. The RFC uses the term "Media Format" is describe the method of
+representing audio content within the protocol. 
+
+Section 8.7 of the RFC provides the list of allowable media formats. This list is 
+repeated in the IANA Registry for the IAX protocol. Importantly, these two documents
+assign a 32-bit codepoint to each allowable media format. This codepoint is used within
+the IAX2 protocol messages allow two nodes to negotiate the audio format that will be used
+during the subsequent telephony session.
+
+The purpose of this discussion is two-fold:
+* Clarify that the meaning of the **existing** media format "16-bit linear little-endian"
+(codepoint 0x00000040) by defining the audio sampling rate that should be used for encoding
+audio in this format.
+* Add a new media format "16-bit linear, 16kHz sampling rate" (codepoint 0x00008000).
+
+This discussion has been made a bit more complicated by a few factors:
+1. The existing RFC document does not define a sampling rate for the "16-bit linear little-endian"
+format. In fact, there is little explicit mention of sampling rates throughout the list of media 
+formats in section 8.7, although this is usually not an issue since most of the formats are 
+described in other related standards. For example: the G.711 mu-law standards document makes
+it very clear that audio encoded in this format should be sampled at 8 kHz. As it turns out,
+the existing implementations of the IAX2 protocol that the author is aware of have made the 
+assumption that audio encoded in the "16-bit linear little-endian" format is sampled at 8 kHz.
+2. Although the existing RFC document does not define a 16 kHz variant of the 16-bit linear
+media format, the existing implementations of the IAX2 protocol that the author is aware of
+have defined a de-facto standard format for this encoding using an **apparently unused** codepoint
+of 0x00008000. Although the use of an unregistered format is not desirable, at least the
+developers didn't create a conflict.
+3. To make things even more complicated, it appears that the existing implementations of the
+8 kHz variant of the 16-bit linear format (the documented one) contain a formatting error. Audio
+samples are encoded using big-endian (network) byte order. **We are not addressing this issue in
+this proposal.** The RFC document was clear on the byte-ordering convention and the erroneous 
+implementations will be handled separately. 
+
+# 2. Proposed Additions
+
+## 2.1 Existing Media Format
+
+The "Media Format Values" table in section 8.7 of the RFC should be changed in the following ways:
+
+* The title at the top of column 3 of the table should be changed from "LENGTH CALCULATIONS" to
+"ENCODING NOTES." This will better represent the contents of this column which varies across formats
+and doesn't always provide the ability to compute the encoded length.
+* The "DESCRIPTION" column for SUBCLASS 0x00000040 should be changed to "16-bit linear little-endian 8 kHz" to
+eliminate ambiguity.
+* The "ENCODING NOTES" column for SUBCLASS 0x00000040 should contain "2 bytes per sample, 160 samples per chunk."
+* A new row should be added in numerical order after AMR:
+  * The "SUBCLASS" column should contain the value 0x00008000.
+  * The "DESCRIPTION" column should contain "16-bit linear little-endian 16 kHz."
+  * The "ENCODING NOTES" column should contain "2 bytes per sample, 320 samples per chunk."
