@@ -90,6 +90,9 @@ public key to form the input of the digest calculation.
 These sizes are relevant because of the 255-byte size limit for Information Elements in the IAX2 protocol.
 UTF-8 encoded hex representations of the challenge and digests will both fit.
 
+Although several sections of the RFC need to be changed, the proposal is actually quite simple: **take
+anything that is currently possible using the RSA digest method and allow the ED25519 digest method as well.**
+
 # 2. Proposed Additions
 
 ## Section 6.1.1 - Registration Overview
@@ -164,7 +167,102 @@ to mention the new result type:
         | Code     |                |             |                            |
         +----------+----------------+-------------+----------------------------+
 
-## 2.1 An Expansion of the AUTHMETHODS
+## Section 6.1.6 - New Information Element for NEW
+
+The table describing the permitted IEs in the NEW message should be expanded
+to mention the new result type:
+
+        +------------------+----------------+-------------+---------------------+
+        | IE               | Section        | Status      | Comments            |
+        +------------------+----------------+-------------+---------------------+
+        | Version          | Section 8.6.10 | Required    |                     |
+        |                  |                |             |                     |
+        | Called           | Section 8.6.1  | Required    |                     |
+        | Number           |                |             |                     |
+        |                  |                |             |                     |
+        | Auto Answer      | Section 8.6.24 | Optional    |                     |
+        |                  |                |             |                     |
+        | Codecs Prefs     | Section 8.6.35 | Required    |                     |
+        |                  |                |             |                     |
+        | Calling          | Section 8.6.29 | Required    |                     |
+        | Presentation     |                |             |                     |
+        |                  |                |             |                     |
+        | Calling          | Section 8.6.2  | Optional    |                     |
+        | Number           |                |             |                     |
+        |                  |                |             |                     |
+        | Calling TON      | Section 8.6.30 | Required    |                     |
+        |                  |                |             |                     |
+        | Calling TNS      | Section 8.6.31 | Required    |                     |
+        |                  |                |             |                     |
+        | Calling Name     | Section 8.6.4  | Optional    |                     |
+        |                  |                |             |                     |
+        | ANI              | Section 8.6.3  | Optional    |                     |
+        |                  |                |             |                     |
+        | Language         | Section 8.6.9  | Optional    |                     |
+        |                  |                |             |                     |
+        | DNID             | Section 8.6.12 | Optional    |                     |
+        |                  |                |             |                     |
+        | Called           | Section 8.6.5  | Conditional | 'Default' assumed   |
+        | Context          |                |             | if IE excluded      |
+        |                  |                |             |                     |
+        | Username         | Section 8.6.6  | Optional    |                     |
+        |                  |                |             |                     |
+        | RSA Result       | Section 8.6.16 | Conditional | If challenged with  |
+        |                  |                |             | RSA                 |
+        |                  |                |             |                     |
+        | MD5 Result       | Section 8.6.15 | Conditional | If challenged with  |
+        |                  |                |             | MD5                 |
+        |                  |                |             |                     |
+        | ED25519 Result   | Section 8.6.xx | Conditional | If challenged with  |
+        |                  |                |             | ED25519             |
+        |                  |                |             |                     |
+        | Format           | Section 8.6.8  | Required    |                     |
+        |                  |                |             |                     |
+        | Capability       | Section 8.6.7  | Conditional |                     |
+        |                  |                |             |                     |
+        | ADSICPE          | Section 8.6.11 | Optional    |                     |
+        |                  |                |             |                     |
+        | Date Time        | Section 8.6.28 | Optional    | Suggested           |
+        |                  |                |             |                     |
+        | Encryption       | Section 8.6.34 | Optional    |                     |
+        |                  |                |             |                     |
+        | OSP Token        | Section 8.6.42 | Optional    |                     |
+        +------------------+----------------+-------------+---------------------+
+
+## Section 6.2.6 - New Information Element for AUTHREP
+
+The table describing the permitted IEs in the AUTHREP message should be expanded
+to mention the new result type:
+
+        +----------------+----------------+-------------+------------+
+        | IE             | Section        | Status      | Comments   |
+        +----------------+----------------+-------------+------------+
+        | RSA Result     | Section 8.6.16 | Conditional | If RSA     |
+        |                |                |             |            |
+        | MD5 Result     | Section 8.6.15 | Conditional | If MD5     |
+        |                |                |             |            |
+        | ED25519 Result | Section 8.6.xx | Conditional | If ED25519 |
+        +----------------+----------------+-------------+------------+
+
+## Section 6.2.7 - Clarification of AUTHREQ Message
+
+The text that describes the challenge methods should be expanded:
+
+        The AUTHREQ message is sent in response to a NEW message if
+        authentication is required for the call to be accepted.  It MUST
+        include the 'authentication methods' and 'username' IEs, and the
+        'challenge' IE if MD5, RSA, or ED25519 authentication is specified.
+
+## Section 8.6 - Addition of a New Information Element to Support ED25519
+
+Here the lengthy table that lists the supported Information Elements should enhanced with a
+new row, making use of one of the reserved codepoints. We propose the use of 0x20.  
+
+* The HEX column should contain: 0x20
+* The NAME column should contain: "ED25519 RESULT"
+* The DESCRIPTION column should contain: "ES25519 challenge result"
+
+## Section 8.6.13 - Expansion of the AUTHMETHODS
 
 Section 8.6.13 of the RFC defines the AUTHMETODS information element. This element is used to indicate
 the authentication methods that a peer accepts. The proposal is to extend the list. Specifically, the 
@@ -183,3 +281,16 @@ new table should look like this:
         | 0x0008 | ED25519                  |
         +--------+--------------------------+
 
+## Section 8.6.14 - Expansion of CHALLENGE Documentation
+
+This section should be expanded to include the new method:
+
+    The purpose of the CHALLENGE information element is to offer the MD5,
+    RSA, or ED25519 challenge to be used for authentication.  It carries the
+    actual UTF-8-encoded challenge data.
+
+Furthermore, an elaboration:
+
+(Max len RSA)
+
+(len ED25519)
