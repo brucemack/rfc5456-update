@@ -10,11 +10,11 @@ defined by [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456).
 The Inter-Asterisk eXchange protocol (IAX2) is used to implement digital telephony
 over Internet Protocol (IP) networks. The IAX2 protocol provides security mechanisms
 at a few points in the call initiation workflow. These mechanisms generally follow a
-"challenge response" protocol. As currently defined, implementers can choose between 
+"challenge response" handshake. As currently defined, implementers can choose between 
 an MD5 or a Rivest–Shamir–Adleman (RSA) challenge format. While these mechanisms
 provide good protection from 
 casual attackers, both have demonstrated cryptographic weaknesses. The goal of this 
-proposal us to expand the list of authentication methods to include the Edwards-Curve
+proposal is to expand the list of authentication methods to include the Edwards-Curve
 Digital Signature Algorithm which is a well-established digital signature algorithm 
 described in [RFC 8032](https://datatracker.ietf.org/doc/html/rfc8032).
 
@@ -27,7 +27,7 @@ its presence on the network and to provide the information needed to be reachabl
 other peers. This process involves a handshake with a central directory service.
 This handshake is defined in section 6.1.2 of the IAX2 RFC. Given the obvious security
 implications of a central directory, the handshake allows the registration service
-to challenge the identity a potential peer. 
+to challenge the identity of a potential peer. 
 2. When a call is being established between two peers it will generally be necessary
 for the called peer to authenticate the calling peer. This handshake is described 
 section 6.2.6 of the IAX2 RFC. Given the obvious security
@@ -37,22 +37,22 @@ challenge the identity of another.
 In both cases the idea is the same: the server/peer that is the recipient of a connection
 can challenge the originator of the connection to determine whether it possesses a required
 secret. To avoid exposing the secret during the handshake, a cryptographically-robust digest 
-is provided by the caller as a proxy for the actual secret.
+is provided by the connection originator as a proxy for the actual secret.
 
-## 1.3 Existing Formats
+## 1.3 Existing Digest Formats Used in IAX2
 
-The existing protocol allows two signature methods for this challenge/response mechanisms. Some
+The existing protocol allows two digest methods for this challenge/response mechanisms. Some
 background information is provided here to support the proposal. However, it should be noted 
-that very little information about the exact nature/format of the challenge token or digest formation
-process is provided in the existing RFC document.
+that the existing RFC is somewhat vague when it comes to the description of the nature/format
+of the challenge token or digest formation process.
 
 ### 1.3.1 The MD5 Digest 
 
 The MD5 message digest is defined in RFC 1321.
 
-When using this mechanism a challenge string is provided to a connection originator by the connection
+In this mechanism a challenge string is provided to a connection originator by the connection
 recipient using the CHALLENGE information element (0x0f). The RFC does not define the format/length 
-of this challenge, other than to say that the challenge is in UTF-8 encoded format. Per the RFC (section 
+of this challenge other than to say that the challenge is in UTF-8 encoded format. Per the RFC (section 
 8.6.15) the resulting digest "is computed by taking the MD5 digest of the challenge string and the 
 password string." This digest is returned in the MD5 RESULT (0x10) information element. Again, the RFC is 
 silent on the exact format of this element, other than to say that it is "UTF-8 encoded." 
@@ -83,11 +83,103 @@ a connection would generate a challenge string, this challenge would be signed b
 using a private key, and the resulting digest would be validated by the connection recipient using a
 public key. The important parameters of this digest:
 
-* The challenge in the ED25519 methodology is 128 bits. This is generally joined to a 128 bit
+* The challenge in the ED25519 methodology is 128 bits. This challenge is generally joined to a 128 bit
 public key to form the input of the digest calculation.
 * The digest that is formed by the ED25519 methodology is 512 bits.
 
+These sizes are relevant because of the 255-byte size limit for Information Elements in the IAX2 protocol.
+UTF-8 encoded hex representations of the challenge and digests will both fit.
+
 # 2. Proposed Additions
 
+## Section 6.1.1 - Registration Overview
+
+Section 6.1.1 should be enhanced to include mention of a new method:
+
+        IAX allows user authentication via multiple methods.  MD5 Message-
+        Digest authentication [RFC1321] uses an MD5 sum arrangement, but
+        still requires that both ends have plaintext access to the secret.
+        (See Section 8.6.15.)  Rivest, Shamir, and Adleman's (RSA) algorithm
+        [RFC3447] and the Edwards-Curve Digital Signature Algorithm (ED25519) 
+        [RFC8032] both allow unidirectional secret knowledge through public/
+        private key pairs.  The IAX Private keys SHOULD always be Triple Data
+        Encryption Standard (3DES) encrypted [RFC1851].  (See Section 8.6.16.)
+
+## Section 6.1.2 - New Information Element for REGREQ
+
+The table describing the permitted IEs in the REGREQ message should be expanded
+to mention the new result type:
+
+        +----------------+----------------+-------------+-------------+
+        | IE             | Section        | Status      | Comments    |
+        +----------------+----------------+-------------+-------------+
+        | Username       | Section 8.6.6  | Required    |             |
+        |                |                |             |             |
+        | MD5 Result     | Section 8.6.15 | Conditional | per REGAUTH |
+        |                |                |             |             |
+        | RSA Result     | Section 8.6.16 | Conditional | per REGAUTH |
+        |                |                |             |             |
+        | ED25519 Result | Section 8.6.xx | Conditional | per REGAUTH |
+        |                |                |             |             |
+        | Refresh        | Section 8.6.18 | Optional    |             |
+        +----------------+----------------+-------------+-------------+
+
+## Section 6.1.3 - New Option for REGAUTH
+
+The table in section 6.1.3 should be elaborated to include the new possible format
+for the challenge element:
+
+        +--------------+----------------+-------------+-------------------------+
+        | IE           | Section        | Status      | Comments                |
+        +--------------+----------------+-------------+-------------------------+
+        | Username     | Section 8.6.6  | Required    |                         |
+        |              |                |             |                         |
+        | Auth Methods | Section 8.6.13 | Required    |                         |
+        |              |                |             |                         |
+        | Challenge    | Section 8.6.14 | Conditional | If RSA, MD5, or ED25519 |
+        +--------------+----------------+-------------+-------------------------+
+
+## Section 6.1.6 - New Information Element for REGREL 
+
+The table describing the permitted IEs in the REGREL message should be expanded
+to mention the new result type:
+
+        +----------+----------------+-------------+----------------------------+
+        | IE       | Section        | Status      | Comments                   |
+        +----------+----------------+-------------+----------------------------+
+        | Username | Section 8.6.6  | Required    |                            |
+        |          |                |             |                            |
+        | MD5      | Section 8.6.15 | Conditional | MD5, RSA or ED25519 Result |
+        | Result   |                |             | is required                |
+        |          |                |             |                            |
+        | RSA      | Section 8.6.16 | Conditional |                            |
+        | Result   |                |             |                            |
+        |          |                |             |                            |
+        | ED25519  | Section 8.6.xx | Conditional |                            |
+        | Result   |                |             |                            |
+        |          |                |             |                            |
+        | Cause    | Section 8.6.21 | Optional    |                            |
+        |          |                |             |                            |
+        | Cause    | Section 8.6.33 | Optional    |                            |
+        | Code     |                |             |                            |
+        +----------+----------------+-------------+----------------------------+
+
 ## 2.1 An Expansion of the AUTHMETHODS
+
+Section 8.6.13 of the RFC defines the AUTHMETODS information element. This element is used to indicate
+the authentication methods that a peer accepts. The proposal is to extend the list. Specifically, the 
+table in section 8.6.13 should be extended to add a new codepoint for the ED25519 digest method. The
+new table should look like this:
+
+        +--------+--------------------------+
+        | METHOD | DESCRIPTION              |
+        +--------+--------------------------+
+        | 0x0001 | Reserved (was Plaintext) |
+        |        |                          |
+        | 0x0002 | MD5                      |
+        |        |                          |
+        | 0x0004 | RSA                      |
+        |        |                          |
+        | 0x0008 | ED25519                  |
+        +--------+--------------------------+
 

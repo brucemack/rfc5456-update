@@ -7,7 +7,7 @@ for continuity.
 
 # 1. Background/Informative 
 
-## 1.1 Goal
+## 1.1 Goals
 
 The Inter-Asterisk eXchange protocol (IAX2) is used to implement digital telephony
 over Internet Protocol (IP) networks. One important flexibility of this protocol
