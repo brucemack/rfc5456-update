@@ -2,7 +2,8 @@
 
 The purpose of this proposal is to formalize the use of a new media format which is not defined 
 in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some additional 
-background an the **existing** media format (16-bit linear, 8kHz sampled audio) is provided for continuity.
+clarification of an **existing** media format (16-bit linear, 8kHz sampled audio) is also proposed
+for continuity.
 
 ## 1.1 General Background/Informative 
 
@@ -53,6 +54,10 @@ samples back to an analog waveform. In order for a digital audio system to be us
 must be a clear agreement on the sampling rate used by both sides of the system. All of the 
 existing audio media formats supported by the IAX2 protocol make some assumption about the 
 audio sampling rate.
+
+By way of background, digital audio systems with higher sampling rates generally provide
+higher audio fidelity. This is the motivation for adding a 16 kHz audio format to the IAX2
+protocol.
 
 The terms "linear" and "pulse-coded modulation" (PCM) are used below. These terms, which
 are generally synonymous, refer to the method of mapping observed analog voltages levels to 
