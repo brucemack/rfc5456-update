@@ -93,6 +93,16 @@ UTF-8 encoded hex representations of the challenge and digests will both fit.
 Although several sections of the RFC need to be changed, the proposal is actually quite simple: **take
 anything that is currently possible using the RSA digest method and allow the ED25519 digest method as well.**
 
+## 1.5 Avoiding Confusion with IAX2 Encryption
+
+Section 7.4 of the IAX2 RFC discusses the related issues around call-level encryption. This feature
+uses one of the Information Elements described in this proposal (CHALLENGE) to enable encryption 
+of the actual contents of an IAX2 call. 
+
+For avoidance of confusion, **the call encryption feature is not relevant to this proposal**. The mechanisms
+covered by this proposal are strictly related to connection-time authentication. The ED25519 algorithm 
+would not be a good choice for the encryption of an audio stream.
+
 # 2. Proposed Additions
 
 ## Section 6.1.1 - Registration Overview
@@ -334,4 +344,3 @@ element:
     The proposal is to replace: "MD5 and RSA" with "MD5, RSA, and ED25519 throughout
     this section.
 
-    
