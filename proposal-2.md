@@ -94,9 +94,6 @@ public key to form the input of the digest calculation.
 These sizes are relevant because of the 255-byte size limit for Information Elements in the IAX2 protocol.
 UTF-8 encoded hex representations of the challenge and digests will both fit.
 
-Although several sections of the RFC need to be changed, the proposal is actually quite simple: **take
-anything that is currently possible using the RSA digest method and allow the ED25519 digest method as well.**
-
 ## 1.5 Public-Key Methods, Similarity Between ED25519 and RSA
 
 The proposed ED25519 method is more similar to the existing RSA method than it is to the existing MD5
@@ -105,15 +102,18 @@ hash value of a shared secret password.
 
 ## 1.6 Avoiding Confusion with IAX2 Encryption
 
-Section 7.4 of the IAX2 RFC discusses the related issues around call-level encryption. This feature
-uses one of the Information Elements described in this proposal (CHALLENGE) to enable encryption 
-of the actual contents of an IAX2 call. 
+Section 7.4 of the IAX2 RFC discusses the related issues around call-level encryption. The encryption
+feature uses one of the Information Elements described in this proposal (CHALLENGE) to enable encryption 
+of the contents of an IAX2 call. 
 
-For avoidance of confusion, **the call encryption feature is not relevant to this proposal**. The mechanisms
+To avoid confusion: **the call encryption feature is not relevant to this proposal**. The mechanisms
 covered by this proposal are strictly related to connection-time authentication. The ED25519 algorithm 
 would not be a good choice for the encryption of an audio stream.
 
 # 2. Proposed Additions
+
+Although several sections of the RFC need to be changed, this proposal is actually quite simple: **take
+anything that is currently possible using the RSA digest method and allow the ED25519 digest method as well.**
 
 ## Section 6.1.1 - Registration Overview
 
