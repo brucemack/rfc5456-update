@@ -301,6 +301,9 @@ new table should look like this:
         | TBD2   | ED25519                  |
         +--------+--------------------------+
 
+It should be noted that the protocol supports the designation of more than one authentication method
+in this element. As such, the codepoints should be treated as a bitmask.
+
 ## Section 8.6.14 - Expansion of CHALLENGE Documentation
 
 This section should be expanded to include the new method:
