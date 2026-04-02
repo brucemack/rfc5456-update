@@ -276,9 +276,9 @@ The text that describes the challenge methods should be expanded:
 ## Section 8.6 - Addition of a New Information Element to Support ED25519
 
 Here the lengthy table that lists the supported Information Elements should enhanced with a
-new row, making use of one of the reserved codepoints. We propose the use of 0x20.  
+new row, making use of one of the reserved codepoints.   
 
-* The HEX column should contain: 0x20
+* The HEX column should contain: TBD1.
 * The NAME column should contain: "ED25519 RESULT"
 * The DESCRIPTION column should contain: "ED25519 challenge result"
 
@@ -298,7 +298,7 @@ new table should look like this:
         |        |                          |
         | 0x0004 | RSA                      |
         |        |                          |
-        | 0x0008 | ED25519                  |
+        | TBD2   | ED25519                  |
         +--------+--------------------------+
 
 ## Section 8.6.14 - Expansion of CHALLENGE Documentation
@@ -338,7 +338,7 @@ element:
                             1
         0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
         +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-        |      0x20     |  Data Length  |
+        |      TBD1     |  Data Length  |
         +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         |                               |
         : UTF-8-encoded ED25519 Result  :

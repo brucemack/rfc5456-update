@@ -110,7 +110,8 @@ eliminate ambiguity.
 The "Media Format Values" table in section 8.7 of the RFC should be augmented to include a new row.
 The row should be added in numerical order after AMR.
 
-* The "SUBCLASS" column should contain the value 0x00008000.
+* The "SUBCLASS" column should contain the value 0x00008000. This specific value is being 
+proposed in order to maintain consistency with the existing implementations.
 * The "DESCRIPTION" column should contain "16-bit linear (PCM) little-endian 16 kHz."
 * The "ENCODING NOTES" column should contain "2 bytes per sample, 320 samples per chunk."
 
