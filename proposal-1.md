@@ -70,17 +70,17 @@ protocol.
 
 ## 1.3 Background on Audio Quantizing Format
 
-The terms "linear" and "pulse-coded modulation" (PCM) are used below. These terms, which
-are generally synonymous, refer to the method of mapping observed analog voltage levels to 
+The terms "linear" and "pulse-coded modulation" (PCM) are used below. These terms are generally
+synonymous and refer to the method of mapping observed analog voltage levels to 
 corresponding digital codewords. A PCM encoding system is called "linear" because the analog 
 voltage levels are quantized to corresponding digital codewords by a linear function. For example, 
 voltage that range from -0.5 volts to +0.5 volts would be mapped onto digital codewords 
 that range from -32,768 to 32,767 using a linear factor of ~65,534.
 
-The linear mapping referenced in this proposal is in contrast to several of the other media formats
+The linear mapping referenced in this proposal is in contrast to several of the other non-linear media formats
 supported. G.711 mu-law (codepoint  0x00000004), for example, uses a logarithmic mapping that gives 
 more resolution to lower signal values. The G.722 format (codepoint 0x00001000) uses an adaptive
-mapping that assigns more/less resolution depending on the shape of the analog signal being
+mapping that assigns more/less resolution depending on the evolving shape of the analog signal being
 quantized. 
 
 Notice that the preceding paragraph references two audio formats (G.711 and G.722) using designations
@@ -94,7 +94,7 @@ interpretation. To name a few:
 
 # 2. Proposed Additions
 
-## 2.1 Existing Media Format
+## 2.1 Clarification of Existing Media Format
 
 The "Media Format Values" table in section 8.7 of the RFC should be changed in the following ways:
 
