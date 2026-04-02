@@ -280,7 +280,7 @@ new row, making use of one of the reserved codepoints. We propose the use of 0x2
 
 * The HEX column should contain: 0x20
 * The NAME column should contain: "ED25519 RESULT"
-* The DESCRIPTION column should contain: "ES25519 challenge result"
+* The DESCRIPTION column should contain: "ED25519 challenge result"
 
 ## Section 8.6.13 - Expansion of the AUTHMETHODS
 
@@ -309,10 +309,10 @@ This section should be expanded to include the new method:
         RSA, or ED25519 challenge to be used for authentication.  It carries the
         actual UTF-8-encoded challenge data.
 
-Furthermore, an elaboration:
+Furthermore, an elaboration should be added:
 
         The challenge size for the ED25519 authentication method MUST be a challenger-defined
-        128-bit (16-byte value), represented as 32 character hexadecimal value, encoded in 
+        128-bit (16-byte value), represented as a 32 character hexadecimal value, encoded in 
         UTF-8 format.
 
 ## New Section 8.6.xx - Addition of ED25519 RESULT Information Element
@@ -322,15 +322,15 @@ element:
 
         The purpose of the ED25519 RESULT information element is to offer an ED25519
         response to an authentication CHALLENGE.  It carries the UTF-8-encoded challenge 
-        result.  The result is computed as follows: converting the 32-hex character 
-        ED25519 challenge string to a 16-byte value, concatenate the the 16-bytes into a 
+        result.  The result is computed as follows: convert the 32-hex character 
+        ED25519 challenge string to a 16-byte value, concatenate the 16-bytes into a 
         single 128-bit value, and sign the ED25519 using the private key. The ED25519 keys 
         are stored locally.
 
         Upon receiving an ED25519 RESULT information element, its value must be
         verified with the sender's public key to match the original challenge string.
 
-        The ES25519 RESULT information element MAY be sent with IAX AUTHREP and
+        The ED25519 RESULT information element MAY be sent with IAX AUTHREP and
         REGREQ messages if an AUTHREQ or REGAUTH and appropriate CHALLENGE
         have been received.  This information element MUST NOT be sent except
         in response to a CHALLENGE.
@@ -347,10 +347,10 @@ element:
     
 ## Section 10 - Elaboration of Security Considerations
 
-    This section provides some general context around the security of IAX2 channels.
-    Everything that is described regarding MD5 and RSA applies equally (if not more)
-    to the ED25519 encryption technology.
+This section provides some general context around the security of IAX2 channels.
+Everything that is described regarding MD5 and RSA applies equally (if not more)
+to the ED25519 encryption technology.
 
-    The proposal is to replace: "MD5 and RSA" with "MD5, RSA, and ED25519 throughout
-    this section.
+The proposal is to replace: "MD5 and RSA" with "MD5, RSA, and ED25519 throughout
+this section.
 
