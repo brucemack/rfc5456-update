@@ -110,7 +110,7 @@ To avoid confusion: **the call encryption feature is not relevant to this propos
 covered by this proposal are strictly related to connection-time authentication. The ED25519 algorithm 
 would not be a good choice for the encryption of an audio stream.
 
-# 2. Proposed Additions
+# 2. Proposed Additions/Clarifications
 
 Although several sections of the RFC need to be changed, this proposal is actually quite simple: **take
 anything that is currently possible using the RSA digest method and allow the ED25519 digest method as well.**

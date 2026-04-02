@@ -92,7 +92,7 @@ interpretation. To name a few:
 * The audio block size to be used.
 * The convention around signedness to be used (i.e. all positive, signed 2's compliment, etc.)
 
-# 2. Proposed Additions
+# 2. Proposed Additions/Clarifications
 
 ## 2.1 Clarification of Existing Media Format
 
