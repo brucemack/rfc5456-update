@@ -33,7 +33,7 @@ implications of a central directory, the handshake allows the registration servi
 to challenge the identity of a potential peer. 
 2. When a call is being established between two peers it will generally be necessary
 for the called peer to authenticate the calling peer. This handshake is described 
-section 6.2.6 of the IAX2 RFC. Given the obvious security
+in section 6.2.6 of the IAX2 RFC. Given the obvious security
 implications of a peer-to-peer network, the handshake allows one peer to 
 challenge the identity of another.
 
@@ -44,10 +44,10 @@ is provided by the connection originator as a proxy for the actual secret.
 
 ## 1.3 Existing Digest Formats Used in IAX2
 
-The existing protocol allows two digest methods for this challenge/response mechanisms. Some
+The existing protocol allows two digest methods for these challenge/response mechanisms. Some
 background information is provided here to support the proposal. However, it should be noted 
-that the existing RFC is somewhat vague when it comes to the description of the nature/format
-of the challenge token or digest formation process.
+that the existing RFC is somewhat vague when it comes to the nature/format
+of the challenge token and digest formation process.
 
 ### 1.3.1 The MD5 Digest 
 
@@ -64,7 +64,7 @@ Although not explicitly stated, the author has observed that the MD5 RESULT elem
 UTF-8 encoded representation of the 32-character hexadecimal representation of the 
 16-byte (128 bit) standard MD5 digest.
 
-What is also unstated is the method of joining the original challenge string and secret password that
+Also unstated is the method of joining the challenge string and secret password that
 form the input of the MD5 digest. From experimentation is appears that the current implementations concatenate
 the challenge and password directly without delimiter.
 
@@ -73,10 +73,11 @@ the challenge and password directly without delimiter.
 The RFC provides a bit more specificity in this case. The UTF-8 encoded challenge string from the CHALLENGE
 information element (0x0f) provided by the connection recipient is SHA1-hashed (RFC3174) and the
 result is RSA-signed using a private key by the connection originator. The PKCS #1 v2.0 method is used to
-address padding requirements. Finally, the RSA digest is validated by the connection recipient using a public key.
+address padding requirements. The digest is returned to the challenger using the RSA RESULT (0x11) information
+element. Finally, the RSA digest is validated by the connection recipient using a public key.
 
-What is not explicitly stated in the RFC is that the result of the RSA signing computed by the connection
-originator is Base-64 encoded (RFC4648) before being sent back to the recipient for authentication.
+Although not explicitly stated in the RFC, it appears that the current implementations apply a Base-64
+encoding (RFC4648) to the resulting RSA signature before it is sent back to the challenger.
 
 ## 1.4 New Digest Proposed: Edwards-Curve Digital Signature Algorithm
 
