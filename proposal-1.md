@@ -14,7 +14,7 @@ over Internet Protocol (IP) networks. One important flexibility of this protocol
 is the support for a variety of encoding formats used to transfer digital audio 
 across the network. For completeness, the protocol also provides support for some 
 non-audio formats like JPEG. The RFC uses the term "Media Format" to describe the 
-specific method of encoding audio content within the protocol. 
+specific method of encoding audio/visual content within the protocol. 
 
 Section 8.7 of the RFC provides a list of allowable media formats. This list is 
 repeated in the IANA Registry for the IAX protocol. Importantly, these two documents
@@ -60,7 +60,7 @@ One of the key parameters of a digital audio encoding format is the sampling rat
 defines the frequency at which an analog audio waveform is observed and converted into 
 digital form. This rate is also used on the other side of the network to convert digital
 samples back to an analog form. In order for a digital audio system to be useful there 
-must be a clear agreement on the sampling rate assumed by both sides of the system. All of the 
+must be a clear agreement on the sampling rate assumed by both sides of the session. All of the 
 existing audio media formats supported by the IAX2 protocol make some assumption about the 
 audio sampling rate.
 
