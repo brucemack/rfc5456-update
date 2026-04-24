@@ -19,7 +19,8 @@ Digital Signature Algorithm which is a well-established security method
 described in [RFC 8032](https://datatracker.ietf.org/doc/html/rfc8032).
 
 The Edwards-Curve methodology offers superior security vs. RSA, it is significantly 
-faster for signing and verification, and uses much smaller key sizes.
+faster for signing and verification, and uses much smaller key sizes. These characteristics
+are particularly attractive for implementations on constrained hardware.
 
 ## 1.2 Challenge/Response Flows
 
@@ -31,11 +32,11 @@ other peers. This process involves a handshake with a central directory service.
 This handshake is defined in section 6.1.2 of the IAX2 RFC. Given the obvious security
 implications of a central directory, the handshake allows the registration service
 to challenge the identity of a potential peer. 
-2. When a call is being established between two peers it will generally be necessary
-for the called peer to authenticate the calling peer. This handshake is described 
-in section 6.2.6 of the IAX2 RFC. Given the obvious security
+2. When a call is being established between two peers it is highly desirable (although not 
+mandatory per the RFC) for the called peer to authenticate the calling peer. This 
+handshake is described in section 6.2.6 of the IAX2 RFC. Given the obvious security
 implications of a peer-to-peer network, the handshake allows one peer to 
-challenge the identity of another.
+challenge the identity of another. 
 
 In both cases the idea is the same: the server/peer that is the recipient of a connection
 can challenge the originator of the connection to determine whether it possesses a required
@@ -81,7 +82,7 @@ encoding (RFC4648) to the resulting RSA signature before it is sent back to the 
 
 ## 1.4 New Digest Proposed: Edwards-Curve Digital Signature Algorithm
 
-The proposal is to add a third digest option. Specifically the ED25519 variant of the
+The proposal is to add a third digest **option**. Specifically the ED25519 variant of the
 Edwards-Curve Digital Signature Algorithm described in RFC8032. Using this method, the recipient of
 a connection must generate a challenge string, this challenge must be signed by the connection originator
 using a private key, and the resulting digest must be validated by the connection recipient using a
