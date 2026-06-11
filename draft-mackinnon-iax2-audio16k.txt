@@ -82,7 +82,7 @@ Table of Contents
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
      5.1.  Clarification of Existing Media Format  . . . . . . . . .   5
-     5.2.  Addition of a New Media Format  . . . . . . . . . . . . .   5
+     5.2.  Addition of a New Media Format  . . . . . . . . . . . . .   6
    6.  Normative References  . . . . . . . . . . . . . . . . . . . .   6
    Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   6
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
@@ -244,6 +244,14 @@ Internet-Draft           IAX2 New Medial Format                June 2026
 
    For IAX2 Security Considerations, see section 10 of [RFC5456].
 
+   Audio parsers are complex software components that process untrusted
+   data, making them prime targets for malicious attacks.  These parsers
+   are vulnerable to buffer overflow attacks, particularly in protocols
+   where the length of the audio block is implicit in the audio format.
+   Implementers must enforce strict boundary checking and be
+   particularly defensive against cases where audio blocks are larger or
+   smaller than what is defined by the encoding rules.
+
 5.  IANA Considerations
 
    IANA is requested to make two updates to the IAX Media Formats
@@ -267,20 +275,18 @@ Internet-Draft           IAX2 New Medial Format                June 2026
    *  The "ENCODING NOTES" column for SUBCLASS 0x00000040 should contain
       "2 bytes per sample, 160 samples per chunk."
 
-5.2.  Addition of a New Media Format
-
-   The "Media Format Values" table in section 8.7 of the RFC should be
-   augmented to include a new row.  The row should be added in numerical
-   order after AMR.
-
-
-
 
 
 MacKinnon               Expires 13 December 2026                [Page 5]
 
 Internet-Draft           IAX2 New Medial Format                June 2026
 
+
+5.2.  Addition of a New Media Format
+
+   The "Media Format Values" table in section 8.7 of the RFC should be
+   augmented to include a new row.  The row should be added in numerical
+   order after AMR.
 
    *  The "SUBCLASS" column should contain the value TBD1.  This
       specific value is being proposed in order to maintain consistency
@@ -317,12 +323,6 @@ Author's Address
    Bruce MacKinnon
    Independent
    Email: bruce@mackinnon.com
-
-
-
-
-
-
 
 
 
