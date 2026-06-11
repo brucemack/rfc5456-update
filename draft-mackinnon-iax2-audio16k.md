@@ -167,6 +167,13 @@ that start with "G" or something similar).
 
 For IAX2 Security Considerations, see section 10 of {{!RFC5456}}.
 
+Audio parsers are complex software components that process untrusted data, making them 
+prime targets for malicious attacks. These parsers are vulnerable to 
+buffer overflow attacks, particularly in protocols where the length of the audio 
+block is implicit in the audio format. Implementers must enforce strict boundary 
+checking and be particularly defensive against cases where audio blocks are larger 
+or smaller than what is defined by the encoding rules.
+
 # IANA Considerations
 
 IANA is requested to make two updates to the IAX Media Formats registry, one clarification
