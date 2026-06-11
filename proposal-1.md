@@ -1,4 +1,4 @@
-**Proposal to Augment RFC5456 (IAX2) with a new Media Format**
+**Proposal to Augment IAX2 Protocol with a new Media Format**
 
 The purpose of this proposal is to formalize the use of a new media format which is not defined 
 in the current version of [RFC5456](https://datatracker.ietf.org/doc/html/rfc5456). Some
@@ -153,7 +153,7 @@ The proposed table in section 8.7 should look like this:
         |            |                       |                                    |
         | 0x00002000 | AMR                   | Variable                           |
         |            |                       |                                    |
-        | 0x00008000 | 16-bit linear (PCM)   | 2 bytes per sample, 320 samples    |
+        | TBD1       | 16-bit linear (PCM)   | 2 bytes per sample, 320 samples    |
         |            | little-endian 16 kHz  | per chunk                          |
         |            |                       |                                    |
         | 0x00010000 | JPEG                  |                                    |
